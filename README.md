@@ -1,18 +1,18 @@
 # DigitalForensicTool (NetworkPacketAnalyzer)
 
-# Import necessary libraries
-import os
-import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
-import pyshark
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+    # Import necessary libraries
+    import os
+    import tkinter as tk
+    from tkinter import filedialog, messagebox, ttk
+    import pyshark
+    from matplotlib.figure import Figure
+    from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 
-# Function to analyze a single PCAP file
-def analyze_pcap(file_path):
+    # Function to analyze a single PCAP file
+    def analyze_pcap(file_path):
     try:
-        # Open the PCAP file using pyshark
+        # Open the PCAP file using pyshark 
         cap = pyshark.FileCapture(file_path, use_json=True)
 
         # Initialize a dictionary to store statistics
@@ -71,25 +71,25 @@ def analyze_pcap(file_path):
         return None
 
 
-# Function to preprocess data for readability
-def preprocess_data(data, top_n=10):
-    # Sort the data by count in descending order
-    sorted_data = sorted(data.items(), key=lambda x: x[1], reverse=True)
-    # Get the top N items
-    top_data = dict(sorted_data[:top_n])
-    # If there are more items, group them as "Other"
-    if len(sorted_data) > top_n:
-        other_count = sum([x[1] for x in sorted_data[top_n:]])
-        top_data["Other"] = other_count
-    return top_data
+    # Function to preprocess data for readability
+    def preprocess_data(data, top_n=10):
+        # Sort the data by count in descending order
+        sorted_data = sorted(data.items(), key=lambda x: x[1], reverse=True)
+        # Get the top N items
+        top_data = dict(sorted_data[:top_n])
+        # If there are more items, group them as "Other"
+        if len(sorted_data) > top_n:
+            other_count = sum([x[1] for x in sorted_data[top_n:]])
+            top_data["Other"] = other_count
+        return top_data
 
 
-# Function to handle file selection and display results
-def select_and_analyze_file(canvas_frame, toolbar_frame, file_label, root):
+    # Function to handle file selection and display results
+    def select_and_analyze_file(canvas_frame, toolbar_frame, file_label, root):
     # Open a file dialog to select a PCAP file
     file_path = filedialog.askopenfilename(filetypes=[("PCAP Files", "*.pcap;*.pcapng")])
-    if not file_path:
-        return
+        if not file_path:
+            return
 
     # Extract only the file name from the full path
     file_name = os.path.basename(file_path)
@@ -108,13 +108,13 @@ def select_and_analyze_file(canvas_frame, toolbar_frame, file_label, root):
         display_results(stats, file_path, canvas_frame, toolbar_frame, root)
 
 
-# Function to display results in the GUI
-def display_results(stats, file_path, canvas_frame, toolbar_frame, root):
-    # Preprocess data for better readability
-    protocols = preprocess_data(stats["protocols"], top_n=10)
-    src_ips = preprocess_data(stats["src_ips"], top_n=10)
-    dst_ips = preprocess_data(stats["dst_ips"], top_n=10)
-    ports = preprocess_data(stats["ports"], top_n=10)
+    # Function to display results in the GUI
+    def display_results(stats, file_path, canvas_frame, toolbar_frame, root):
+        # Preprocess data for better readability
+        protocols = preprocess_data(stats["protocols"], top_n=10)
+        src_ips = preprocess_data(stats["src_ips"], top_n=10)
+        dst_ips = preprocess_data(stats["dst_ips"], top_n=10)
+        ports = preprocess_data(stats["ports"], top_n=10)
 
     # DDoS Detection Result
     ddos_label = tk.Label(canvas_frame, text="", font=("Arial", 14, "bold"), fg="red")
@@ -186,12 +186,12 @@ def display_results(stats, file_path, canvas_frame, toolbar_frame, root):
     summary_button.pack(side=tk.RIGHT, padx=5)
 
 
-# Function to show the summary in a pop-up window
-def show_summary(stats, protocols, src_ips, dst_ips, ports):
-    # Create a new window for the summary
-    summary_window = tk.Toplevel()
-    summary_window.title("Summary of Findings")
-    summary_window.geometry("1400x600")  # Wider window to accommodate side-by-side layout
+    # Function to show the summary in a pop-up window
+    def show_summary(stats, protocols, src_ips, dst_ips, ports):
+        # Create a new window for the summary
+        summary_window = tk.Toplevel()
+        summary_window.title("Summary of Findings")
+        summary_window.geometry("1400x600")  # Wider window to accommodate side-by-side layout
 
     # Center the summary window on the screen
     screen_width = summary_window.winfo_screenwidth()
@@ -265,11 +265,11 @@ def show_summary(stats, protocols, src_ips, dst_ips, ports):
         port_label.pack()
 
 
-# Main GUI application
-def main():
-    # Create the main application window
-    root = tk.Tk()
-    root.title("Network Traffic Analyzer")
+    # Main GUI application
+    def main():
+        # Create the main application window
+        root = tk.Tk()
+        root.title("Network Traffic Analyzer")
 
     # Set the initial window size to 50% of the original size
     window_width = 700  # 50% of 1400
@@ -352,6 +352,6 @@ def main():
     root.mainloop()
 
 
-# Run the application
-if __name__ == "__main__":
-    main()
+    # Run the application
+    if __name__ == "__main__":
+        main()
